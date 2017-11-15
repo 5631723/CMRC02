@@ -1,0 +1,117 @@
+﻿@using CMRC02.Models
+@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+    var state = 0;
+}
+
+<table height="100%" align="left" cellspacing="0" cellpadding="0" width="100%" border="0">
+    <tbody>
+        <tr valign="top">
+            <td nowrap="">
+                <br>
+                <form name="ctl01" method="post" onsubmit="return false;" id="ctl01">
+
+                    <img align="left" width="24" src="/Content/images/1x1.gif">
+                    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                        <tbody>
+                            <tr>
+                                <td class="ContentHead">
+                                    <img align="left" height="32" width="60" src="/Content/images/1x1.gif"><span id="Header"> 审核并递交您的订单</span>
+                                    <br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <img align="left" height="1" width="92" src="/Content/images/1x1.gif">
+                    <table height="100%" cellspacing="0" cellpadding="0" width="550" border="0">
+                        <tbody>
+                            <tr valign="top">
+                                <td width="100%" class="Normal">
+                                    <br>
+                                    <span id="Message">请确认以下所有的信息完全正确</span>
+                                    <br>
+                                    <br>
+                                    <table cellspacing="0" cellpadding="4" rules="cols" border="1" id="MyDataGrid" style="border-color:Black;font-family:Verdana;font-size:8pt;width:90%;border-collapse:collapse;">
+                                        <tbody>
+                                            <tr class="CartListHead">
+                                                <td>产品名称：</td>
+                                                <td>型号：</td>
+                                                <td>数量：</td>
+                                                <td>单价：</td>
+                                                <td>小记：</td>
+                                            </tr>
+
+                                            @foreach (CartList item in ViewBag.list)
+                                            {
+
+                                                <tr class="@(state % 2 == 0 ? "CartListItem" :"CartListItemAlt")">
+                                                    <td>@item.ModelName</td>
+                                                    <td>@item.ModelNumber</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@string.Format("{0:c}", item.UnitCost)</td>
+                                                    <td>
+                                                        <span>@string.Format("{0:c}", item.Quantity * item.UnitCost)</span>
+                                                        <input type="hidden" class="total" value="@(item.Quantity * item.UnitCost)" />
+                                                    </td>
+                                                </tr>
+
+                                                state++;
+                                            }
+
+                                            <tr class="CartListFooter">
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <br>
+                                    <b>总计： </b>
+                                    <span id="lblTotal"></span>
+                                    <p>
+                                        <input type="image" name="SubmitBtn" id="SubmitBtn" src="/Content/images/submit.gif" style="border-width:0px;">
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    function SumTotal() {
+
+        var sum = 0;
+        $(".total").each(function () {
+
+            sum += parseFloat($(this).val());
+
+        });
+        $("#lblTotal").text("¥" + sum.toFixed(2));
+    }
+
+    SumTotal();
+
+    //异步生成订单
+    $("#SubmitBtn").click(function () {
+        $.post("@Url.Action("CreateOrder","Orders")", null, function (data) {
+
+            console.log(data);
+
+            $("#Header").text("完成订单");
+            $("#Message").text("您的订单编号为:" + data.OrderID);
+            $("#SubmitBtn").hide();
+
+            //  data.OrderID
+
+        }, "json");
+    });
+
+</script>

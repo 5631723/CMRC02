@@ -1,0 +1,84 @@
+﻿@using CMRC02.Models
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+
+    var info = ViewBag.info as OrderList;
+
+}
+
+<table height="100%" align="left" cellspacing="0" cellpadding="0" width="100%" border="0">
+    <tbody>
+        <tr valign="top">
+            <td nowrap="">
+                <br>
+                <img align="left" width="24" src="/Content/images/1x1.gif">
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="ContentHead">
+                                <img align="left" height="32" width="60" src="/Content/images/1x1.gif">订单详细信息
+                                <br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <img align="left" height="15" width="86" src="/Content/images/1x1.gif" border="0">
+                <span id="MyError" class="ErrorText"></span>
+                <table id="detailsTable" height="100%" cellspacing="0" cellpadding="0" width="550" border="0">
+                    <tbody>
+                        <tr valign="top">
+                            <td width="100%" class="Normal">
+                                <br>
+                                <b>您的订单号为：</b>
+                                <span id="lblOrderNumber">@info.OrderID</span>
+                                <br>
+                                <b>下订单日期： </b>
+                                <span id="lblOrderDate">@info.OrderDate.ToShortDateString()</span>
+                                <br>
+                                <b>出货日期：</b>
+                                <span id="lblShipDate">@info.ShipDate.ToShortDateString()</span>
+                                <br>
+                                <br>
+                                <table cellspacing="0" cellpadding="4" rules="cols" border="1" id="GridControl1" style="border-color:Black;font-family:Verdana;font-size:8pt;width:90%;border-collapse:collapse;">
+                                    <tbody>
+                                        <tr class="CartListHead">
+                                            <td>产品名称</td>
+                                            <td>型号</td>
+                                            <td>数量</td>
+                                            <td>单价</td>
+                                            <td>小记</td>
+                                        </tr>
+
+                                        @foreach (CartList cart in ViewBag.list)
+                                        {
+                                            <tr class="CartListItem">
+                                                <td>@cart.ModelName</td>
+                                                <td>@cart.ModelNumber</td>
+                                                <td>@cart.Quantity</td>
+                                                <td>@string.Format("{0:c}", cart.UnitCost)</td>
+                                                <td>@string.Format("{0:c}", cart.Quantity * cart.UnitCost)</td>
+                                            </tr>
+                                        }
+
+                                        <tr class="CartListFooter">
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <b>总计：</b>
+                                <span id="lblTotal">@string.Format("{0:c}", info.SumTotal)</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </td>
+        </tr>
+    </tbody>
+</table>

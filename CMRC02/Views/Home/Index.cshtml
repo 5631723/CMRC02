@@ -1,0 +1,107 @@
+﻿@using CMRC02.Models
+@{
+    ViewBag.Title = "首页";
+}
+
+<table cellspacing="0" cellpadding="0" width="100%">
+    <tbody>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td class="HomeHead">
+                                <span id="WelcomeMsg">欢迎来到 ASP.NET Commerce Starter Kit</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table cellspacing="0" cellpadding="2" width="600" border="0">
+                    <tbody>
+                        <tr valign="top">
+                            <td>
+                                <table width="300">
+                                    <tbody>
+                                        <tr valign="top">
+                                            <td>
+                                                <span class="NormalDouble">
+                                                    The Commerce Starter Kit 展示了为.NET平台创建强大而具有伸缩性的应用程序和服务是多么容易。
+                                                    IBuySpy.com 是一个假想中的基于ASP.NET Commerce Starter Kit.点击与购买的零售商，是ASP.NET Commerce
+                                                    Starter Kit 的一次有效验证
+                                                    <br>
+                                                    <br>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td align="left">
+                                <img border="0" width="309" src="/Content/ProductImages/image.gif">
+                                <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="NormalDouble">
+                                    <i>
+                                        Blast off in a <a href="ProductDetails.aspx?productID=373">
+                                            <b>Pocket Protector Rocket Pack</b>
+                                        </a>
+                                    </i>
+                                </span>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+
+
+
+
+                                <table width="95%" cellpadding="0" cellspacing="0" border="0">
+
+                                    <tbody>
+                                        <tr>
+                                            <td class="MostPopularHead">
+                                                &nbsp;本周最畅销商品
+                                            </td>
+                                        </tr>
+
+                                        @foreach (Popular p in ViewBag.list)
+                                        {
+                                            <tr>
+                                                <td bgcolor="#d3d3d3">
+                                                    &nbsp;
+                                                    <a class="MostPopularItemText" href="@Url.Action("details", "Products", new { id = p.ProductID })">@p.ModelName</a>
+                                                    <br>
+                                                </td>
+                                            </tr>
+
+                                        }
+
+                                        <tr>
+                                            <td bgcolor="#d3d3d3">
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </td>
+                            <td>
+                                <br>
+                                <span class="NormalDouble">
+                                    为了给Commerce Starter Kit一个测试环境，轻松开始浏览并可把任何商品添加到购物车中
+                                    在任何时候都可点击页面左面的<b>文档</b>来了解真实发生的事
+                                </span>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>

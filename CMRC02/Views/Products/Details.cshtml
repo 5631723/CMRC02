@@ -1,0 +1,189 @@
+﻿@using CMRC02.Models
+@{
+    ViewBag.Title = "产品详细";
+    Layout = "~/Views/shared/_Layout2.cshtml";
+    var data = ViewBag.info as CMRC02.Models.CMRC_Products;
+}
+
+<table height="100%" cellspacing="0" cellpadding="0" width="620" align="left" border="0">
+    <tbody>
+        <tr valign="top">
+            <td>
+                <br>
+                <img src="/Content/images/1x1.gif" width="24" align="left">
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="ContentHead">
+                                <img height="32" src="/Content/images/1x1.gif" width="60" align="left"><span id="ModelName">@data.ModelName</span>
+                                <br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table cellspacing="0" cellpadding="0" width="100%" border="0" valign="top">
+                    <tbody>
+                        <tr valign="top">
+                            <td rowspan="2">
+                                <img height="1" width="24" src="/Content/images/1x1.gif">
+                            </td>
+                            <td width="309">
+                                <img height="15" src="/Content/images/1x1.gif">
+                                <br>
+                                <img id="ProductImage" border="0" src="@(Common.PICURL+data.ProductImage)" style="height:185px;width:309px;border-width:0px;">
+                                <br>
+                                <br>
+                                <img height="20" src="/Content/images/1x1.gif" width="72"><span class="UnitCost"><b>价格：</b>&nbsp;<span id="UnitCost">@string.Format("{0:c}", data.UnitCost)</span></span>
+                                <br>
+                                <img height="20" src="/Content/images/1x1.gif" width="72"><span class="ModelNumber"><b>型号：</b>&nbsp;<span id="ModelNumber">@data.ModelNumber</span></span>
+                                <br>
+
+                                <img height="20" src="/Content/images/1x1.gif" width="72"><span class="ModelNumber">
+                                    <div style="float:left;margin-left:71px;"><b>数量：</b></div>&nbsp;<span id="ModelNumber">
+
+                                        @* 数量 *@
+
+                                        <div id="f"></div>
+                                        <div id="c"><input type="text" id="Quantity" value="1" disabled="disabled" /></div>
+                                        <div id="l"></div>
+
+
+                                    </span>
+                                </span>
+                                <br>
+
+                                <img height="30" src="/Content/images/1x1.gif" width="72"><a id="addToCart" href="#"><img src="/Content/images/add_to_cart.gif" style="border-width:0px;"></a>
+                            </td>
+                            <td>
+                                <table width="300" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td valign="top">
+                                                <span id="desc" class="NormalDouble">@data.Description</span>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <img height="30" src="/Content/images/1x1.gif">
+
+
+                                <table width="95%" cellpadding="0" cellspacing="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                        <tr></tr>
+                    </tbody>
+                </table>
+                <table border="0">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="/Content/images/1x1.gif" width="89" height="20">
+                            </td>
+                            <td width="100%">
+
+
+                                <font face="宋体"></font><font face="宋体"></font>
+                                <br>
+                                <br>
+                                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="SubContentHead">
+                                                &nbsp;回顾
+                                                <br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <a id="ReviewList_AddReview" href="@Url.Action("ReviewAdd","Review",new {id=data.ProductID})">
+                                                    <img align="absbottom" src="/Content/images/review_this_product.gif" border="0">
+                                                </a>
+                                                <br>
+                                                <br>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <ul id="RatingList">
+
+                                                    @foreach (CMRC02.Models.CMRC_Reviews item in ViewBag.Reviews)
+                                                    {
+                                                        <li>
+                                                            <span class="NormalBold">@item.CustomerName</span>
+                                                            <span class="Normal">says... </span><img src="/Content/images/ReviewRating@(item.Rating).gif">
+                                                            <br>
+                                                            <span class="Normal">@item.Comments</span>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+
+
+
+
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<script>
+    //减少数量
+    $("#f").click(function () {
+
+        var val = parseInt($("#Quantity").val());
+
+        if (val > 1) {
+            $("#Quantity").val(val - 1);
+        }
+
+    });
+    //增加数量
+    $("#l").click(function () {
+
+        var val = parseInt($("#Quantity").val());
+
+        if (val < 99) {
+            $("#Quantity").val(val + 1);
+        }
+
+    });
+
+    $("#addToCart").click(function () {
+
+        window.location.href = "@Url.Action("AddToCart", "ShoppingCart", new {id =data.ProductID })" + "/" + $("#Quantity").val();
+
+        @*alert(@data.ProductID+"|" + $("#Quantity").val())*@
+
+        return false;
+    });
+
+    //
+
+</script>

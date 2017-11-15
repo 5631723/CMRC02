@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "ReviewAdd";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<table height="100%" align="left" cellspacing="0" cellpadding="0" width="100%" border="0">
+    <tbody>
+    <tr valign="top">
+        <td nowrap="">
+            <br>
+            <form name="ctl01" method="post" action="@Url.Action("Add", "Review")" onsubmit="return Valid()" id="ctl01">
+  
+
+
+                <img align="left" width="24" src="/Content/Images/1x1.gif">
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tbody>
+                    <tr>
+                        <td class="ContentHead">
+                            <img align="left" height="32" width="60" src="/Content/Images/1x1.gif">发表评论 -
+                            <span id="ModelName">@ViewBag.ModelName</span>
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <img align="left" width="92" src="/Content/Images/1x1.gif">
+                <table width="500" border="0">
+                    <tbody>
+                    <tr valign="top">
+                        <td>
+                            <table border="0">
+                                <tbody>
+                                <tr>
+                                    <td valign="top" width="550">
+                                        <span class="NormalBold">用户名</span>
+                                        <br>
+                                        <input name="CustomerName" type="text" id="Name" size="20">
+                                        <span id="CustomerName" style="color:Red;font-family:verdana;font-size:9pt;display:none;">用户名不能为空</span>
+                                        <br>
+                                        <br>
+                                        <span class="NormalBold">电子邮件地址</span>
+                                        <br>
+                                        <input name="CustomerEmail" type="text" id="Email" size="20">
+                                        <span id="CustomerEmail" style="color:Red;font-family:verdana;font-size:9pt;display:none;">邮件不能为空</span>
+                                        <br>
+                                        <br>
+                                        <span class="NormalBold">评价</span>
+                                        <br>
+                                        <br>
+                                        @* 
+                                            评分
+                                        *@
+
+                                        @* 隐藏控件用于提交产品编号 *@
+                                        <input type="hidden" name="ProductID" value="@ViewBag.ProductID" />
+                                        @* 隐藏控件用于提交产品评分 *@
+                                        <input type="hidden" name="Rating" value="1" />
+
+                                        <ul id="Rating">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                        </ul>
+
+                                        <script>
+
+                                            
+
+                                            $("#Rating li").hover(function() {
+                                                //滑入
+
+                                                var rate = $(this).text();
+
+                                                $("#Rating").css("background-image", "url(/Content/images/reviewrating" + rate + ".gif)");
+
+                                            }, function() {
+                                                //滑出
+
+                                                $("#Rating").css("background-image", "url(/Content/images/reviewrating" + $("[name=Rating]").val() + ".gif)");
+
+                                            }).click(function() {
+                                                //点击
+                                                $("[name=Rating]").val($(this).text());
+
+                                            });
+
+                                        </script>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <br>
+                            <span class="NormalBold">意见</span>
+                            <br>
+                            <textarea name="Comments" rows="7" cols="60" id="Comment"></textarea>
+                            <span id="Comments" style="color:Red;font-family:verdana;font-size:9pt;display:none;">意见不能为空</span>
+                            <br>
+                            <br>
+                            <input type="image" name="ReviewAddBtn" id="ReviewAddBtn" src="/Content/Images/submit.gif" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ReviewAddBtn&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" style="border-width:0px;">
+                            <br>
+                            <br>
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script>
+
+    function Valid()
+    {
+        if($("[name=CustomerName]").val().length==0)
+        {
+            $("#CustomerName").show();
+            return false;
+        }
+        else{
+            $("#CustomerName").hide();
+        }
+
+        if($("[name=CustomerEmail]").val().length==0)
+        {
+            $("#CustomerEmail").show();
+            return false;
+        }
+        else{
+            $("#CustomerEmail").hide();
+        }
+        if($("[name=Comments]").val().length==0)
+        {
+            $("#Comments").show();
+            return false;
+        }
+        else{
+            $("#Comments").hide();
+        }
+    }
+
+
+</script>

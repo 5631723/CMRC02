@@ -1,0 +1,7 @@
+new { data= ["aa","bb","cc"]}
+
+new { data= [1,2,3]}
+
+new { data= [["aa","bb","cc"],["aa","bb","cc"],["aa","bb","cc"]]}
+
+new {data= List<String[]>} 

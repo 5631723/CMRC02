@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<table height="100%" align="left" cellspacing="0" cellpadding="0" width="100%" border="0">
+    <tbody>
+    <tr valign="top">
+        <td nowrap="">
+            <br>
+            <form name="ctl01" method="post" action="@Url.Action("CheckUser", "Home", new { ReturnUrl = Request.QueryString["ReturnUrl"] })"  id="ctl01">
+
+                <img align="left" width="24" height="1" src="/Content/images/1x1.gif">
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tbody>
+                    <tr>
+                        <td class="ContentHead">
+                            <img align="left" height="32" width="60" src="/Content/images/1x1.gif">登录
+                            <br>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <img align="left" height="1" width="92" src="/Content/images/1x1.gif">
+                
+                @if (string.IsNullOrEmpty(User.Identity.Name))
+                {
+                    <table height="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr valign="top">
+                            <td width="550">
+                                <span id="Message" class="ErrorText"></span>
+                                <br>
+                                <br>
+                                &nbsp;<span class="NormalBold">电子邮件地址</span>
+                                <br>
+                                &nbsp;<input name="email" type="text" id="email" size="25">&nbsp;
+                                <span id="emailRequired" style="color: Red; font-family: verdana; font-size: 9pt; display: none;">用户名不能为空</span>
+                                <span id="emailValid" style="color: Red; display: none;">必须输入合法邮件地址</span>
+                                <br>
+                                <br>
+                                &nbsp;<span class="NormalBold">密码</span>
+                                <br>
+                                &nbsp;<input name="password" type="password" id="password" size="25">&nbsp;
+                                <span id="passwordRequired" style="color: Red; font-family: verdana; font-size: 9pt; visibility: hidden;">密码不能为空</span>
+                                <br>
+                                <br>
+                                <input id="RememberLogin" type="checkbox" name="RememberLogin" value="true">
+                                <span class="NormalBold">记住我的登陆名</span>
+                                <br>
+                                <br>
+                                <br>
+                                <input type="image" name="LoginBtn" id="LoginBtn" src="/Content/images/sign_in_now.gif" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions( & quot;LoginBtn & quot;, &quot;&quot;,true,  &quot;&quot;, &quot;&quot;,false, false))" style="border-width: 0px;">
+                                <br>
+                                <br>
+                                <span class="Normal">如果你还没有账号，那么现在就注册一个</span>
+                                <br>
+                                <br>
+                                <a href="register.aspx"><img border="0" src="/Content/images/register.gif"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    //注销
+                    <div style="padding-top: 25px; padding-left: 100px;font-family:'微软雅黑'; font-size: 18px; color: darkred; font-weight: bold;"><a href="@Url.Action("SignOut","Home")">注销</a></div>        
+                }
+              
+                
+
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>

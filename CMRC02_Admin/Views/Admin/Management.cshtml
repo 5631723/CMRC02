@@ -1,0 +1,285 @@
+﻿@{
+    ViewBag.Title = "管理员管理";
+}
+
+<!-- Button trigger modal -->
+<button type="button" id="CreateAdmin" class="btn btn-primary btn-lg">
+    添加管理员
+</button>
+
+<div class="row-fluid sortable ui-sortable">
+    <div class="box span12">
+        <div class="box-header" data-original-title="">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Members</h2>
+            <div class="box-icon">
+                <a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
+                <a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+                <a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <table id="adminlist" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>账户</th>
+                        <th>密码</th>
+                        <th>性别</th>
+                        <th>创建日期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div><!--/span-->
+
+</div>
+
+
+
+<!-- AddModal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
+            </div>
+            <div class="modal-body">
+                @* 模态框内容开始 *@
+                <div class="control-group">
+                    <label class="control-label" for="username">账户</label>
+                    <div class="controls">
+                        <input type="text" id="username" placeholder="Email">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">密码</label>
+                    <div class="controls">
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="repass">确认密码</label>
+                    <div class="controls">
+                        <input type="password" id="repass" placeholder="RePassword">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="sex">性别</label>
+                    <div class="controls">
+                        <label class="checkbox inline">
+                            <input type="radio" id="inlineCheckbox1" name="sex" value="true" checked="checked"> 男生
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="radio" id="inlineCheckbox2" name="sex" value="false"> 女生
+                        </label>
+                    </div>
+                </div>
+
+                @* 模态框内容结束 *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="Save" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* ------------------Edit------------------------------------ *@
+
+<!-- Modal -->
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑管理员</h4>
+            </div>
+            <div class="modal-body">
+                @* 模态框内容开始 *@
+                <div class="control-group">
+                    <label class="control-label" for="aa">账户</label>
+                    <div class="controls">
+                        <input type="text" name="username" id="aa" placeholder="Email">
+                        <input type="hidden" name="Id" value="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="bb">密码</label>
+                    <div class="controls">
+                        <input type="password" name="password" id="bb" placeholder="Password">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >性别</label>
+                    <div class="controls">
+                        <label class="checkbox inline">
+                            <input type="radio"  name="sex1" value="true" checked="checked"> 男生
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="radio"  name="sex1" value="false"> 女生
+                        </label>
+                    </div>
+                </div>
+
+                @* 模态框内容结束 *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="EditAdmin" class="btn btn-primary">Save Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* ------------------Edit------------------------------------ *@
+
+<script>
+
+    //设置两个模态框的初始化隐藏
+    $("#myModal,#EditModal").hide();
+
+    $(document).ready(function () {
+        //初始化表格
+        var table = $('#adminlist').DataTable({
+            "ajax": '@Url.Action("GetAdmin","Admin")',
+            "order":[[0,"desc"]],
+            "columnDefs": [{
+                "targets": 5,
+                "data": null,
+                "defaultContent": "<button class='btn btn-info'> <i class='halflings-icon white edit'></i>  </button>  <button class='btn btn-danger' ><i class='halflings-icon white trash'></i> </button>"
+            }, {
+                "targets": 2,
+                "data": null,
+                "defaultContent": "******"
+            }]
+        });
+        //操作事件
+        $('#adminlist tbody').on('click', 'button', function () {
+            var data = table.row($(this).parents('tr')).data();
+            //保存待删除行
+            var tr = table.row($(this).parents('tr'));
+            if ($(this).find(".trash").length > 0) {
+
+                //询问框
+                layer.confirm('是否确认删除？', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        layer.msg("已删除" + data[1] + "完成");
+                        $.post("@Url.Action("Delete","Admin")",
+                            { id: data[0] },
+                            function(result) {
+
+                                if (result == "success") {
+                                    //移除行
+                                    tr.remove().draw(false);
+                                }
+                            });
+                    },
+                    function() {});
+            } else {
+
+                //将编辑的原始值，显示在编辑模态框控件上
+                var $edit = $("#EditModal");
+
+                $edit.find("[name=username]").val(data[1]);
+                $edit.find("[name=password]").val(data[2]);
+                $edit.find("[name=Id]").val(data[0]);
+
+                $edit.find("[name=sex1]").removeAttr("checked");
+                $edit.find("[name=sex1]").parent().removeClass("checked");
+                if (data[3] == "男") {
+                    $edit.find("[name=sex1]").eq(0).attr("checked", "checked");
+                    $edit.find("[name=sex1]").eq(0).parent().addClass("checked");
+                } else {
+                    $edit.find("[name=sex1]").eq(1).attr("checked", "checked");
+                    $edit.find("[name=sex1]").eq(1).parent().addClass("checked");
+                }
+
+                //显示编辑的模态框
+                $('#EditModal').modal({
+                    keyboard: false,
+                    backdrop: "static"
+                });
+
+            }
+
+        });
+
+        //呼出模态框
+        $("#CreateAdmin").click(function() {
+            $('#myModal').modal({
+                keyboard: false,
+                backdrop: "static"
+            });
+        });
+
+        //添加管理员
+        $("#Save").click(function() {
+
+            var $add = $("#myModal");
+            var username = $add.find("#username").val();
+            var password = $add.find("#password").val();
+            var repass = $add.find("#repass").val();
+            var sex = $add.find("[name=sex]:checked").val();
+
+            if (username.length == 0) {
+                layer.msg("账户不能为空");
+                return false;
+            }
+
+            if (password != repass) {
+                layer.msg("两次输入密码不一致");
+                return false;
+            }
+
+            $.post("@Url.Action("Add", "Admin")",
+                { Username: username, Password: password, Sex: sex },function(data) {
+
+                    if (data == "success") {
+                        layer.msg(username + "添加成功");
+                        $("#myModal").modal("hide");
+                        //重新加载表格的数据
+                        table.ajax.reload();
+                    }
+                    else
+                        layer.msg("添加失败");
+                });
+        });
+
+
+        $('#myModal').on('hidden.bs.modal',
+            function(e) {
+                $("#username,#password,#repass").val("");
+            });
+
+        //保存修改
+        $("#EditAdmin").click(function() {
+            
+            //将编辑的原始值，显示在编辑模态框控件上
+            var $edit = $("#EditModal");
+
+            var Id = $edit.find("[name=Id]").val();
+            var username = $edit.find("[name=username]").val();
+            var password = $edit.find("[name=password]").val();
+            var sex = $edit.find("[name=sex1]:checked").val();
+
+            $.post("@Url.Action("Update","Admin")", {Id:Id,Username:username,Password:password,Sex:sex}, function(data) {
+                
+                if (data == "success") {
+                    layer.msg("编辑成功");
+                    $("#EditModal").modal("hide");
+                    table.ajax.reload();
+                }
+
+            });
+
+
+        });
+
+    });
+</script>

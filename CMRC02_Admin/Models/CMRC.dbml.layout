@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.875" name="CMRC">
+  <DataContextMoniker Name="/CMRCDataContext" />
+  <nestedChildShapes>
+    <classShape Id="995ebc47-9ae5-42dc-ae3a-b570d4659c8f" absoluteBounds="0.75, 0.75, 2, 1.7220992024739581">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Admin" />
+      <nestedChildShapes>
+        <elementListCompartment Id="85f452c9-1bd8-4a9f-bb69-93169c83640f" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="53242b2a-df60-4891-b765-6d0c87d2ee15" absoluteBounds="3.75, 0.75, 2, 1.7220992024739581">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_ShoppingCart" />
+      <nestedChildShapes>
+        <elementListCompartment Id="058d2c2a-25bf-43a1-bb52-d9e723ad4362" absoluteBounds="3.765, 1.21, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0216e738-2ed8-4520-9dbe-6d9869dced6f" absoluteBounds="0.75, 3.75, 2, 1.167716878255209">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Categories" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e430df73-4111-4d4a-9e0a-5b3d39f6c87c" absoluteBounds="0.765, 4.21, 1.9700000000000002, 0.60771687825520826" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ec9ad972-34c0-40fb-91e3-48ebcd61a05a" absoluteBounds="3.75, 3.75, 2, 1.5373050944010416">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Customers" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3c227458-2edd-4e7a-a9df-6b7f6a120650" absoluteBounds="3.765, 4.21, 1.9700000000000002, 0.97730509440104174" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="5d8e6e86-b1ce-46a5-afab-17a6a253fda0" absoluteBounds="6.75, 0.75, 2, 1.7220992024739579">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_OrderDetails" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e149e081-4dac-4aa3-86d0-8a2f5113f169" absoluteBounds="6.765, 1.21, 1.9700000000000002, 1.1620992024739583" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bfb88006-a8b1-4d81-b21b-e7bf6811cb96" absoluteBounds="0.75, 6.75, 2, 1.5373050944010416">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Orders" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e47f84f5-5eb2-46d5-b340-4c8c02c09b78" absoluteBounds="0.765, 7.21, 1.9700000000000002, 0.97730509440104174" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e33fb847-943f-403e-8cf1-eb4c0f07507f" absoluteBounds="6.75, 3.75, 2, 2.0916874186197916">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Products" />
+      <nestedChildShapes>
+        <elementListCompartment Id="52e81fd3-f374-44d5-8b7f-d87231099663" absoluteBounds="6.765, 4.21, 1.9700000000000002, 1.5316874186197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6f342a78-0a9d-4548-b351-f123d54d06ab" absoluteBounds="3.75, 6.75, 2, 1.9068933105468755">
+      <DataClassMoniker Name="/CMRCDataContext/CMRC_Reviews" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d32a91ca-132b-453f-a5e6-98652d312a61" absoluteBounds="3.765, 7.21, 1.9700000000000002, 1.346893310546875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

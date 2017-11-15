@@ -1,0 +1,142 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/ASPNETCommerce2.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+</head>
+<body background="/Content/images/sitebkgrd.gif" leftmargin="0" topmargin="0" rightmargin="0"
+      bottommargin="0" marginheight="0" marginwidth="0">
+    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+        <tr>
+            <td colspan="2">
+
+
+                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                    <tr>
+                        <td colspan="2" background="/Content/images/grid_background.gif" nowrap>
+                            <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                <tr>
+                                    <td colspan="2">
+                                        <img src="/Content/images/most_secretive_place.gif">
+                                    </td>
+                                    <td align="right">
+                                        <table cellpadding="0" cellspacing="0" border="0" id="Link">
+                                            <tr valign="top">
+                                                <td align="center" width="65">
+                                                    <a href="@Url.Action("Login","Home")" class="SiteLinkBold">
+                                                        <div><img src="/Content/images/sign_in.gif" border="0"></div>
+                                                        <div> 登录</div>
+                                                    </a>
+                                                </td>
+                                                <td align="center" width="75">
+                                                    <a href="@Url.Action("OrderList","Orders")" class="SiteLinkBold">
+                                                        <div><img src="/Content/images/account.gif" border="0"></div>
+                                                        <div> 账户</div>
+                                                    </a>
+                                                </td>
+                                                <td align="center" width="55">
+                                                    <a href="@Url.Action("List","ShoppingCart")" class="SiteLinkBold">
+                                                        <div><img src="/Content/images/cart.gif" border="0"></div>
+                                                        <div> 购物车</div>
+                                                    </a>
+                                                </td>
+                                                <td align="center" width="65">
+                                                    <a href="InstantOrder.asmx" class="SiteLinkBold">
+                                                        <div><img src="/Content/images/services.gif" border="0"></div>
+                                                        <div> 服务</div>
+                                                    </a>
+                                                </td>
+                                            <tr>
+                                        </table>
+                                    </td>
+                                    <td width="10">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" nowrap>
+                            <form method="post" action="@Url.Action("Search","Products")">
+                                <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                    <tr bgcolor="#9D0000">
+                                        <td background="/Content/images/modernliving_bkgrd.gif" id="ibuyspy">
+                                            <img align="left" src="/Content/images/modernliving.gif">
+                                        </td>
+                                        <td width="94" align="right" bgcolor="#9D0000">
+                                            <img src="/Content/images/search.gif">
+                                        </td>
+                                        <td width="120" align="right" bgcolor="#9D0000">
+                                            <input type="text" name="Key" id="Key" size="20">
+                                        </td>
+                                        <td align="left" bgcolor="#9D0000">
+                                            &nbsp;<input type="image" src="/Content/images/arrowbutton.gif" border="0" id="image1" name="image1">&nbsp;
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" width="145">
+                <table cellspacing="0" cellpadding="0" width="145" border="0">
+                    <tr valign="top">
+                        <td colspan="2">
+                            <a href="@Url.Action("index","home")"><img src="/Content/images/logo.gif" border="0"></a>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td colspan="2">
+                            @* 菜单开始 *@
+
+                            @{Html.RenderAction("Menu", "Home");}
+
+                            @* 菜单结束 *@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="10">
+                            &nbsp;
+                        </td>
+                        <td>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <a href="docs/docs.htm" target="_blank" class="SiteLink">
+                                Commerce Starter Kit<br>
+                                文档
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+                <img height="1" src="/Content/images/1x1.gif" width="145">
+            </td>
+            <td align="left" valign="top">
+
+
+                <div id="Main">
+                    @* 内容部分开始 *@
+                    @RenderBody()
+                    @* 内容部分结束 *@
+                </div>
+
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

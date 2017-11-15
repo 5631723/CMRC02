@@ -1,0 +1,240 @@
+﻿@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+    var state = 0;
+}
+
+@ViewBag.name
+
+<table height="100%" align="left" cellspacing="0" cellpadding="0" width="100%" border="0">
+    <tbody>
+        <tr valign="top">
+            <td nowrap="">
+                <br>
+                <form name="ctl01" method="post" action="@Url.Action("CheckOut","ShoppingCart")" id="ctl01">
+
+
+
+                    <img align="left" width="24" src="/Content/images/1x1.gif">
+                    <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                        <tbody>
+                            <tr>
+                                <td class="ContentHead">
+                                    <img align="left" height="32" width="60" src="/Content/images/1x1.gif">购物车
+                                    <br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <img align="left" height="4" width="110" src="/Content/images/1x1.gif"> <font color="red">
+                        <span id="MyError" class="ErrorText"></span>
+                    </font>
+                    <br>
+                    <img align="left" height="15" width="24" src="/Content/images/1x1.gif" border="0">
+                    <div id="DetailsPanel">
+
+                        <img height="1" src="/Content/images/1x1.gif" width="50" align="left">
+
+
+                        @if (ViewBag.list.Count > 0)
+                        {
+                            <table height="100%" cellspacing="0" cellpadding="0" width="550" border="0" id="cartlist">
+                                <tbody>
+                                    <tr valign="top">
+                                        <td width="550">
+                                            <table cellspacing="0" cellpadding="4" rules="cols" border="1" id="MyList" style="border-color:Black;font-family:Verdana;font-size:8pt;border-collapse:collapse;">
+                                                <tbody>
+                                                    <tr class="CartListHead">
+                                                        <td>商品号</td>
+                                                        <td>商品名称</td>
+                                                        <td>型号</td>
+                                                        <td>数量</td>
+                                                        <td>单价</td>
+                                                        <td>小记</td>
+                                                        <td>移除</td>
+                                                    </tr>
+
+
+                                                    @foreach (CMRC02.Models.CartList cart in ViewBag.list)
+                                                    {
+                                                        <tr class="@(state % 2 == 0 ? "CartListItem" :"CartListItemAlt")" name="datarow">
+                                                            <td>
+                                                                <span class="ProductID">@cart.ProductID</span>
+                                                            </td>
+                                                            <td>@cart.ModelName</td>
+                                                            <td>@cart.ModelNumber</td>
+                                                            <td>
+                                                                <span class="jian">
+                                                                    <img src="~/Content/Images/jian.gif" />
+                                                                </span>
+                                                                <input name="Quantity" type="text" value="@cart.Quantity" maxlength="3" size="4" style="width:22px;text-align:center" disabled="disabled">
+                                                                <span class="jia">
+                                                                    <img src="~/Content/Images/jia.gif" />
+                                                                </span>
+                                                            </td>
+                                                            <td class="UnitCost">
+                                                                @string.Format("{0:c}", cart.UnitCost)
+                                                                <input type="hidden" name="UnitCost" value="@cart.UnitCost" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="hidden" class="total" value="@(cart.Quantity * cart.UnitCost)" />
+                                                                <span>@string.Format("{0:c}", cart.Quantity * cart.UnitCost)</span>
+                                                            </td>
+                                                            <td>
+                                                                <center>
+
+                                                                    <a href="#" rid="@cart.RecordID" class="Delete"><img src="~/Content/Images/gif-0767.gif" /></a>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                        state++;
+                                                    }
+
+
+
+                                                    <tr class="CartListFooter">
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table><img height="1" src="/Content/images/1x1.gif" width="350">
+                                            <span class="NormalBold">
+                                                总计：
+                                            </span>
+                                            <span id="lblTotal" class="NormalBold">$1,608.95</span><br>
+                                            <br>
+                                            <img height="1" src="/Content/images/1x1.gif" width="60">
+                                            <input type="image" name="UpdateBtn" id="UpdateBtn" src="/Content/images/update_cart.gif" style="border-width:0px;"><img height="1" src="/Content/images/1x1.gif" width="15">
+                                            <input type="image" name="CheckoutBtn" id="CheckoutBtn" src="/Content/images/final_checkout.gif" style="border-width:0px;"><br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h4 style="color:red;font-family:微软雅黑;">对不起，请先去添加产品!!!</h4>
+                        }
+
+
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script>
+
+    ///删除
+    $(".Delete").click(function () {
+        var rid = $(this).attr("rid");
+        var $tr = $(this).parents("[name=datarow]");
+        $.post("@Url.Action("Remove","ShoppingCart")", { id: rid }, function (data) {
+            if (data == "sucess") {
+                $tr.remove();
+                if ($("[name=datarow]").length == 0) {
+                    $("#cartlist").after('<h4 style="color:red;font-family:微软雅黑;">对不起，请先去添加产品!!!</h4>');
+                    $("#cartlist").remove();
+                }
+                DataStyle();
+                SumTotal();
+            }
+
+        });
+    });
+
+    //数据行样式设置
+    function DataStyle() {
+        $("[name=datarow]").removeClass();
+        $("[name=datarow]:even").addClass("CartListItem");
+        $("[name=datarow]:odd").addClass("CartListItemAlt");
+    }
+
+    //为了防止连续点击实现异步操作，我们定义一个锁，让他实现类似列队操作的效果.
+    var lock = true;
+
+    //加
+    $(".jia").click(function () {
+
+        var num = parseInt($(this).parent().find("[name=Quantity]").val());
+
+        if (lock) {
+            lock = false;
+            if (num < 99) {
+                $(this).parent().find("[name=Quantity]").val(num + 1);
+                var ProductID = $(this).parent().parent().find(".ProductID").text();
+                var UnitCost = parseFloat($(this).parent().next().find("[name=UnitCost]").val());
+
+                //保留2位
+                var total = ((num + 1) * UnitCost).toFixed(2);
+                //小计
+                $(this).parent().next().next().find("span").text("¥" + total);
+                $(this).parent().next().next().find(".total").val(total);
+
+
+                $.post("@Url.Action("UpdateNum","ShoppingCart")",
+                    { id: ProductID, num: 1 },
+                    function (data) {
+
+                        if (data == "sucess") {
+                            lock = true;
+                            //计算价格
+                            SumTotal();
+                        }
+                    });
+            }
+        }
+    });
+
+
+    //减
+    $(".jian").click(function () {
+
+        var num = parseInt($(this).parent().find("[name=Quantity]").val());
+        if (num > 1) {
+
+            $(this).parent().find("[name=Quantity]").val(num - 1);
+            var ProductID = $(this).parent().parent().find(".ProductID").text();
+            var UnitCost = parseFloat($(this).parent().next().find("[name=UnitCost]").val());
+
+            //保留2位
+            var total = ((num - 1) * UnitCost).toFixed(2);
+            //小计
+            $(this).parent().next().next().find("span").text("¥" + total);
+            $(this).parent().next().next().find(".total").val(total);
+
+            $.post("@Url.Action("UpdateNum", "ShoppingCart")",
+                { id: ProductID, num: -1 },
+                function (data) {
+
+                    if (data == "sucess") {
+                        lock = true;
+                        //计算价格
+                        SumTotal();
+                    }
+                });
+        }
+
+    });
+
+
+    function SumTotal() {
+
+        var sum = 0;
+        $(".total").each(function () {
+
+            sum += parseFloat($(this).val());
+
+        });
+        $("#lblTotal").text("¥" + sum.toFixed(2));
+    }
+
+    SumTotal();
+</script>

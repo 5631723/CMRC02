@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<ul id="Rating">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+
+<script>
+
+    var star = 1;
+    $("#Rating li").hover(function() {
+        //滑入
+
+        var rate = $(this).text();
+
+        $("#Rating").css("background-image", "url(/Content/images/reviewrating" + rate + ".gif)");
+
+    }, function() {
+        //滑出
+
+        $("#Rating").css("background-image", "url(/Content/images/reviewrating" + star + ".gif)");
+
+    }).click(function() {
+        //点击
+        star = $(this).text();
+
+    });
+
+</script>

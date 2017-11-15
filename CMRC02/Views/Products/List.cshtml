@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "产品列表";
+    var url = Common.PICURL;
+}
+@using CMRC02.Models
+
+<span id="tips">@ViewBag.tips</span>
+
+<ul id="productlist">
+    @foreach (CMRC_Products p in ViewBag.list)
+    {
+        <li>
+            <table border="0" width="300px" height="100px">
+                <tbody>
+                    <tr>
+                        <td width="25">
+                            &nbsp;
+                        </td>
+                        <td width="100" valign="middle" align="right">
+                            <a href="@Url.Action("Details", "Products", new { id = p.ProductID })">
+                                <img src="@(url+p.ProductImage)" width="100" height="75" border="0">
+                            </a>
+                        </td>
+                        <td width="200" valign="middle">
+                            <a href="@Url.Action("Details", "Products", new { id = p.ProductID })">
+                                <span class="ProductListHead">
+                                    @p.ModelName
+                                </span>
+                                <br>
+                            </a>
+                            <span class="ProductListItem">
+                                <b>价格： </b>
+                                @string.Format("{0:c}", p.UnitCost)
+                            </span>
+                            <br>
+                            <a class="AddOne" href="@Url.Action("AddToCart", "ShoppingCart", new {id =p.ProductID })" onclick="return  false" abc="@p.ProductID">
+                                <span class="ProductListItem">
+                                    <font color="#9D0000"><b>添加到购物车<b></b></b></font>
+                                </span><b>
+                                    <b>
+                                    </b>
+                                </b>
+                            </a><b>
+                                <b>
+                                </b>
+                            </b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+    }
+
+</ul>
+
+
+<script>
+    $(".AddOne").click(function () {
+
+        var ProductID = $(this).attr("abc");
+
+        //获取当前点击元素的父元素，寻找下方的图片
+        var $img = $(this).parents("table:first").find("img");
+        //复制一个
+        var $view = $img.clone();
+        //添加样式，并追加到页面
+        $view.addClass("view").appendTo("body");
+
+        //获取初始位置的坐标
+        var top = parseInt($img.offset().top);
+        var left = parseInt($img.offset().left);
+
+        //将坐标设置到拷贝出的元素上
+        $view.css({ "left": left, "top": top });
+
+        //获取移动目标位置
+        var targetLeft = $("#ShoppingCart").offset().left;
+        var targetTop = $("#ShoppingCart").offset().top;
+
+        //动画移动，缩小，移除
+        $view.animate({ "left": targetLeft + 20, "top": targetTop + 15, "width": "0px", "height": "0px" },
+            1000,
+            function () {
+                $view.remove();
+
+                //+1
+                $.post("@Url.Action("AddOne", "ShoppingCart")",
+                    { id: ProductID },
+                    function (data) {
+                        //购物车数量统计
+                        GetCount();
+                    },
+                    "json");
+            });
+    });
+
+    //获取当前用户在购物车中产品的总数
+    function GetCount() {
+        $("#corner").remove();
+        $.post("@Url.Action("GetCount","ShoppingCart")", null, function (data) {
+            //小红点的效果
+            var $corner = $("<div id='corner'>" + data.count + "<div>");
+            $corner.appendTo("body");
+
+            //获取移动目标位置
+            var targetLeft = $("#ShoppingCart").offset().left;
+            var targetTop = $("#ShoppingCart").offset().top;
+
+            //设置红点坐标
+            $corner.css({ "left": targetLeft + 30, "top": targetTop });
+
+        }, "json");
+    }
+
+    GetCount();
+</script>

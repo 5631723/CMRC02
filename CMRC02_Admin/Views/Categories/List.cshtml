@@ -1,0 +1,168 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "分类管理";
+}
+
+<!-- Button trigger modal -->
+<button type="button" id="CreateCategory" class="btn btn-primary btn-lg">
+    添加分类
+</button>
+
+<div class="row-fluid sortable ui-sortable">
+    <div class="box span12">
+        <div class="box-header" data-original-title="">
+            <h2><i class="halflings-icon user"></i><span class="break"></span>Members</h2>
+            <div class="box-icon">
+                <a href="#" class="btn-setting"><i class="halflings-icon wrench"></i></a>
+                <a href="#" class="btn-minimize"><i class="halflings-icon chevron-up"></i></a>
+                <a href="#" class="btn-close"><i class="halflings-icon remove"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <table id="categorylist" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>分类名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div><!--/span-->
+
+</div>
+
+
+
+<!-- AddModal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                @* 模态框内容开始 *@
+
+
+
+                @* 模态框内容结束 *@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="Save" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(function () {
+
+        var table = $("#categorylist").DataTable({
+            "ajax": "@Url.Action("GetAll","Categories")",
+            "order": [0, "asc"],
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button class='btn btn-info editbtn' > <i class='halflings-icon white edit'></i>  </button>  <button class='btn btn-danger' ><i class='halflings-icon white trash'></i> </button>"
+            }]
+        });
+
+        $("#categorylist").on("click", "button", function () {
+
+            var data = table.row($(this).parents("tr")).data();
+
+            if ($(this).hasClass("editbtn")) {
+                //编辑
+                $("#myModalLabel").text("编辑分类");
+                $("#myModal").modal({
+                    keyboard: false,
+                    backdrop: "static"
+                });
+
+                $.post("@Url.Action("EditModal","Categories")",
+                    {id:data[1]},
+                    function (result) {
+                        $(".modal-body").html(result);
+
+                        //添加 功能
+                        $("#Save").click(function () {
+
+                            var categoryname = $("#categoryName").val();
+                            $.post("@Url.Action("Update","Categories")", { CategoryID:data[0],CategoryName: categoryname }, function (cc) {
+
+                                if (cc == "success") {
+                                    layer.msg("修改成功");
+                                    $("#myModal").modal("hide");
+                                    table.ajax.reload();
+                                }
+                            });
+                        });
+                    });
+
+
+            } else {
+                //询问框
+                layer.confirm('是否确认删除？',
+                    {
+                        btn: ['确认', '取消'] //按钮
+                    },
+                    function () {
+
+                        $.post("@Url.Action("Delete","Categories")", { id: data[0] }, function (result) {
+
+                            if (result == "success") {
+
+                                layer.msg("删除" + data[1] + "成功");
+
+                                table.ajax.reload();
+                            }
+                        });
+                    },
+                    function () { });
+            }
+        });
+
+        //添加模态框
+        $("#CreateCategory").click(function () {
+
+            $("#myModalLabel").text("添加分类");
+            $("#myModal").modal({
+                keyboard: false,
+                backdrop: "static"
+            });
+
+            $.post("@Url.Action("AddModal","Categories")",
+                null,
+                function (data) {
+                    $(".modal-body").html(data);
+
+                    //添加 功能
+                    $("#Save").click(function () {
+
+                        var categoryname = $("#categoryName").val();
+                        $.post("@Url.Action("Add","Categories")", { CategoryName: categoryname }, function (data) {
+
+                            if (data == "success") {
+                                layer.msg("添加成功");
+                                $("#myModal").modal("hide");
+                                table.ajax.reload();
+                            }
+                        });
+                    });
+                });
+        });
+
+        $("#myModal").on("hidden.bs.modal", function() {
+            $("#Save").unbind("click");
+        });
+
+
+    });
+</script>

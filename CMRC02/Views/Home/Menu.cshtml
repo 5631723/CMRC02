@@ -1,0 +1,41 @@
+﻿<table id="Menu1_MyList" cellspacing="0" cellpadding="3" border="0" style="width:145px;border-collapse:collapse;">
+
+    @{var a = 0;}
+    @foreach (CMRC02.Models.CMRC_Categories item in ViewBag.list)
+    {
+        <tr>
+
+            @if (Request.QueryString["selection"] == a.ToString())
+            {
+                <td style="background-color: dimgray">
+                    <a class="MenuUnselected" href="@Url.Action("list", "products")?CategoryID=@item.CategoryID&selection=@a">@item.CategoryName</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a class="MenuUnselected" href="@Url.Action("list","products")?CategoryID=@item.CategoryID&selection=@a">@item.CategoryName</a>
+                </td>
+            }
+
+        </tr>
+            a++;
+    }
+
+
+</table>
+
+
+<script>
+    //从地址栏获取selection参数，并给对应的菜单设置高亮
+    function Selection() {
+        var url = window.location.href;
+
+        if (url.indexOf("selection") > 0) {
+            var param = url.substr(url.lastIndexOf("=") + 1);
+
+            $("#Menu1_MyList tr").eq(param).find("td").css("background-color", "DimGray");
+        }
+    }
+    // Selection();
+</script>
