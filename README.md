@@ -1,0 +1,2 @@
+# CMRC02
+N2D16002班项目实战（前台：MVC+ADO.NET 后台：MVC+Bootstrap+LINQ）
